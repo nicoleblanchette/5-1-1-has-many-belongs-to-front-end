@@ -39,21 +39,24 @@ export const renderMain = () => {
 
 export const renderAuthor = (author) => {
   const authorElement = document.createElement('div');
-  authorElement.innerHTML = `
-      <h2>${author.name}</h2>
-      <ul id="${author.name}">${renderBooks(author)}</ul>
-  `;
-  document.getElementById('app').appendChild(authorElement);
+
+  const h3 = document.createElement('h3');
+  h3.textContent = author.name;
+
+  const ul = document.createElement('ul');
+  ul.id = `authorNum${author.id}`;
+  console.log(author.id, author);
+  ul.innerHTML = renderBooks(author.name);
+  authorElement.append(h3, ul);
+  document.querySelector('#app').append(authorElement);
 };
 
-export const renderBooks = (author) => {
+export const renderBooks = (authorName) => {
+  // console.log(authorName)
   const allAuthors = Author.getAllAuthors();
-  const thisAuthor = allAuthors.filter(el => el.name === author);
-  console.log(thisAuthor);
+  const thisAuthor = allAuthors.filter((el) => el.name === authorName);
   const books = thisAuthor[0].getBooks();
-  // console.log(books)
-  if (!books[0]) return 'No books have been added for this Author yet.';
-  return books.map(book => `<li>${book.title}</li>`).join('');
+  return books[0] ? books.map((book) => `<li>${book.title}</li>`).join('') : 'No books have been added for this author.'
 };
 
 export const updateDropDown = () =>{

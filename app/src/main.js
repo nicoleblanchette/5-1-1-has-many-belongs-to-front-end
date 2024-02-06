@@ -1,7 +1,7 @@
 import './style.css'
 import { renderMain, renderAllAuthors, renderAuthor, updateDropDown} from './utils/render-functions.js';
 import { Author } from './models/has-many.js';
-import { addNewBook } from './utils/handler.js';
+import { addNewBook } from './utils/utils.js';
 
 const handleAuthorSubmit = (e) => {
   e.preventDefault();
@@ -15,14 +15,15 @@ const handleAuthorSubmit = (e) => {
 
 const handleBookSubmit = (e) => {
   e.preventDefault();
-
-  const formObj = Object.fromEntries(new FormData(e.target));
-  console.log(formObj);
-  addNewBook(formObj);
+  const authorAndBook = Object.fromEntries(new FormData(e.target));
+  // console.log(formObj);
+  addNewBook(authorAndBook);
+  e.target.reset();
 }
 
 const main = () => {
-  new Author('Gonzalo Romero');
+  const gonzalo = new Author('Gonzalo Romero');
+  gonzalo.addBook('car', gonzalo.name);
   renderMain();
   renderAllAuthors();
   document.querySelector('#author-form').addEventListener('submit', handleAuthorSubmit);
