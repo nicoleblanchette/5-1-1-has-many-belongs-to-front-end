@@ -1,6 +1,6 @@
 import getId from "../utils/getId.js";
 
-// build the class that would belong to the things that has many
+// build the class that would belong to the things that has many things
 class Book {
   constructor(title, author) {
       this.id = getId();

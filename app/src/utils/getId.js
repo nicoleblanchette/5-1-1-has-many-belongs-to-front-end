@@ -1,7 +1,7 @@
-const makeCounter = (id = 0) => {
+const makeIdCounter = (id = 0) => {
   return () => ++id;
 };
 
-const getId = makeCounter();
+const getId = makeIdCounter();
 
 export default getId;
