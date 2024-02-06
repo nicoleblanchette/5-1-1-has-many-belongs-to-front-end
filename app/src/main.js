@@ -1,30 +1,30 @@
 import './style.css'
-import { renderMain, renderBooks, renderAuthor, updateDropDown, findAuthorHelper} from './utils/render-functions.js';
-import { Author } from './models/has-many.js';
+import { renderMain, renderSongs, renderPlaylist, updateDropDown, findPlaylistHelper} from './utils/render-functions.js';
+import { Playlist } from './models/has-many.js';
 
-const handleAuthorSubmit = (e) => {
+const handlePlaylistSubmit = (e) => {
   e.preventDefault();
-  const newAuthor = Object.fromEntries(new FormData(e.target));
-  const author = new Author(newAuthor.name);
-  renderAuthor(author);
+  const newPlaylist = Object.fromEntries(new FormData(e.target));
+  const playlist = new Playlist(newPlaylist.name);
+  renderPlaylist(playlist);
   updateDropDown();
   e.target.reset();
 }
 
-const handleBookSubmit = (e) => {
+const handleSongSubmit = (e) => {
   e.preventDefault();
-  const authorAndBook = Object.fromEntries(new FormData(e.target));
-  const author = findAuthorHelper(authorAndBook.name);
-  author[0].addBook(authorAndBook.title, authorAndBook.name);
-  document.querySelector(`#authorUL${author[0].id}`).innerHTML = renderBooks(authorAndBook.name);
+  const playlistAndSong = Object.fromEntries(new FormData(e.target));
+  const playlist = findPlaylistHelper(playlistAndSong.name);
+  playlist[0].addSong(playlistAndSong.title, playlistAndSong.name);
+  document.querySelector(`#playlistUL${playlist[0].id}`).innerHTML = renderSongs(playlistAndSong.name);
   e.target.reset();
 }
 
 const main = () => {
   renderMain();
 
-  document.getElementById('author-form').addEventListener('submit', handleAuthorSubmit);
-  document.getElementById('book-form').addEventListener('submit', handleBookSubmit);
+  document.getElementById('playlist-form').addEventListener('submit', handlePlaylistSubmit);
+  document.getElementById('song-form').addEventListener('submit', handleSongSubmit);
 }
 
 main();

@@ -1,26 +1,26 @@
 import getId from "../utils/getId.js";
-import Book from "./belongs-to.js"
+import Song from "./belongs-to.js"
 
 // build the class that would have many things
-export class Author {
-  static #allAuthors = []; 
-  #books = [];
+export class Playlist {
+  static #allPlaylists = []; 
+  #songs = [];
 
   constructor(name) {
       this.id = getId();
-      this.name = name; // Array to store books
-      Author.#allAuthors.push(this);
+      this.name = name; // Array to store songs
+      Playlist.#allPlaylists.push(this);
   };
 
-  addBook(title, author) {
-    this.#books.push(new Book(title, author));
+  addSong(title, artist, album) {
+    this.#songs.push(new Song(title, artist, album));
   };
 
-  getBooks(){
-    return [...this.#books];
+  getSongs(){
+    return [...this.#songs];
   };
 
-  static getAllAuthors(){
-    return [...Author.#allAuthors];
+  static getAllPlaylists(){
+    return [...Playlist.#allPlaylists];
   }
 }

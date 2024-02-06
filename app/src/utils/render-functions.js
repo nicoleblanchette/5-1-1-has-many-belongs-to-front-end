@@ -1,63 +1,63 @@
-import { Author } from "../models/has-many.js";
+import { Playlist } from "../models/has-many.js";
 
 export const renderMain = () => {
   const form = document.querySelector('#app');
-  const authorSection = document.createElement('div');
+  const playlistSection = document.createElement('div');
 
-  authorSection.innerHTML = `
-      <h2>Add Author</h2>
-      <form id="author-form">
-          <label for="author-name">Author Name:</label>
-          <input type="text" name='name' id="author-name" required>
-          <button type="submit">Add Author</button>
+  playlistSection.innerHTML = `
+      <h2>Add Playlist</h2>
+      <form id="playlist-form">
+          <label for="playlist-name">Playlist Name:</label>
+          <input type="text" name='name' id="playlist-name" required>
+          <button type="submit">Add Playlist</button>
       </form>
   `;
-  // form.append(authorSection);
+  form.append(playlistSection);
 
-  const bookSection = document.createElement('div');
-  bookSection.id = 'bookForm';
-  bookSection.innerHTML = `
-  <h2>Add Book</h2>
-  <form id="book-form">
-      <label for="authors">Select Author:</label>
-      <select id="authors" name="name" required>
-          ${Author.getAllAuthors().map(author => `<option value="${author.name}">${author.name}</option>`).join('')}
+  const songSection = document.createElement('div');
+  songSection.id = 'songForm';
+  songSection.innerHTML = `
+  <h2>Add Song</h2>
+  <form id="song-form">
+      <label for="playlists">Select Playlist:</label>
+      <select id="playlists" name="name" required>
+          ${Playlist.getAllPlaylists().map(playlist => `<option value="${playlist.name}">${playlist.name}</option>`).join('')}
       </select>
-      <label for="book-title">Book Title:</label>
-      <input type="text" name="title" id="book-title" required>
-      <button type="submit">Add Book</button>
+      <label for="song-title">Song Title:</label>
+      <input type="text" name="title" id="song-title" required>
+      <button type="submit">Add Song</button>
   </form>
   `;
-  form.append(authorSection, bookSection);
+  form.append(playlistSection, songSection);
 };
 
-export const renderAuthor = (author) => {
-  const authorElement = document.createElement('div');
-  authorElement.id = `authorNum${author.id}`;
+export const renderPlaylist = (playlist) => {
+  const playlistElement = document.createElement('div');
+  playlistElement.id = `playlistNum${playlist.id}`;
 
   const h3 = document.createElement('h3');
-  h3.textContent = author.name;
+  h3.textContent = playlist.name;
 
   const ul = document.createElement('ul');
-  ul.id = `authorUL${author.id}`;
-  console.log(author.id, author);
-  ul.innerHTML = renderBooks(author.name);
+  ul.id = `playlistUL${playlist.id}`;
+  console.log(playlist.id, playlist);
+  ul.innerHTML = renderSongs(playlist.name);
 
-  authorElement.append(h3, ul);
+  playlistElement.append(h3, ul);
 
-  document.querySelector('#app').append(authorElement);
+  document.querySelector('#app').append(playlistElement);
 };
-export const findAuthorHelper = (authorName) => {
-  return Author.getAllAuthors().filter((el) => el.name === authorName)
+export const findPlaylistHelper = (playlistName) => {
+  return Playlist.getAllPlaylists().filter((el) => el.name === playlistName)
 }
-export const renderBooks = (authorName) => {
-  const thisAuthor = findAuthorHelper(authorName);
-  const books = thisAuthor[0].getBooks();
-  return books[0] ? books.map((book) => `<li>${book.title}</li>`).join('') : 'No books have been added for this author.'
+export const renderSongs = (playlistName) => {
+  const thisPlaylist = findPlaylistHelper(playlistName);
+  const songs = thisPlaylist[0].getSongs();
+  return songs[0] ? songs.map((song) => `<li>${song.title}</li>`).join('') : 'No songs have been added for this playlist.'
 };
 
 export const updateDropDown = () =>{
-  document.querySelector('#authors').innerHTML = `
-  ${Author.getAllAuthors().map(author => `<option value="${author.name}">${author.name}</option>`).join('')}
+  document.querySelector('#playlists').innerHTML = `
+  ${Playlist.getAllPlaylists().map(playlist => `<option value="${playlist.name}">${playlist.name}</option>`).join('')}
   `
 }
